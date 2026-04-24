@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration } from 'chart.js';
 import { KycSummary } from '../../services/dashboard.service';
@@ -11,13 +11,14 @@ import { KycSummary } from '../../services/dashboard.service';
     <div class="bg-white drop-shadow-xl rounded-lg p-6">
       <h2 class="text-xl font-bold text-gray-800 mb-2">KYC Application Summary</h2>
       <div class="justify-items-center m-1">
-        <canvas id="kycPyramid"></canvas>
+        <canvas #kycCanvas></canvas>
       </div>
     </div>
   `
 })
-export class KycSummaryComponent implements OnInit {
+export class KycSummaryComponent implements AfterViewInit {
   @Input() kycData: KycSummary[] = [];
+  @ViewChild('kycCanvas') kycCanvas!: ElementRef<HTMLCanvasElement>;
 
   private statuses = ['Incomplete', 'In Review', 'Verified L1', 'Verified L2', 'Rejected', 'Approved'];
   private typeColors: Record<string, string> = {
@@ -27,12 +28,12 @@ export class KycSummaryComponent implements OnInit {
     CORPORATE: '#FF6361',
   };
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.buildChart();
   }
 
   private buildChart() {
-    const ctx = document.getElementById('kycPyramid') as HTMLCanvasElement;
+    const ctx = this.kycCanvas.nativeElement;
     const datasets = this.kycData.map(t => ({
       label: t.kycType,
       data: [t.incomplete, t.inReview, t.verifiedLevel1, t.verifiedLevel2, t.rejected, t.approved],
