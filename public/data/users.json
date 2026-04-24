@@ -1,0 +1,10 @@
+{
+  "responseCode": 200,
+  "data": [
+    { "userType": "CUSTOMER", "userCount": 142, "cumulativeCount": 18540 },
+    { "userType": "BO", "userCount": 3, "cumulativeCount": 87 },
+    { "userType": "AGENT", "userCount": 21, "cumulativeCount": 3210 },
+    { "userType": "CORPORATE", "userCount": 5, "cumulativeCount": 412 },
+    { "userType": "MERCHANT", "userCount": 14, "cumulativeCount": 1870 }
+  ]
+}

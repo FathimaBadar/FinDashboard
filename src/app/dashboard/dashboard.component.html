@@ -1,0 +1,149 @@
+<div class="bg-gray-100 min-h-screen p-1">
+
+  <!-- Tab Navigation -->
+  <div class="flex justify-center mt-2">
+    <div class="flex space-x-12 border-b border-gray-200">
+      <button (click)="activeTabMain = 'dashboard'"
+        class="flex items-center px-2 py-2 text-gray-600 relative"
+        [ngClass]="{ 'text-indigo-600 font-semibold': activeTabMain === 'dashboard' }">
+        <span class="material-icons mr-2">dashboard</span>
+        Dashboard
+        <span *ngIf="activeTabMain === 'dashboard'" class="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600"></span>
+      </button>
+      <button (click)="activeTabMain = 'reports'"
+        class="flex items-center px-4 py-2 text-gray-600 relative"
+        [ngClass]="{ 'text-indigo-600 font-semibold': activeTabMain === 'reports' }">
+        <span class="material-icons mr-2">analytics</span>
+        Business Reports
+        <span *ngIf="activeTabMain === 'reports'" class="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mt-8 px-6">
+
+    <!-- Dashboard Tab -->
+    <div *ngIf="activeTabMain === 'dashboard'">
+
+      <!-- Stat Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4" *ngIf="balances">
+        <div class="p-5 rounded-xl shadow-md text-white orange-blue-card">
+          <div class="text-sm font-extrabold">AWCC Inventory</div>
+          <div class="flex items-center justify-between mt-4">
+            <div class="text-xl font-extrabold">{{ balances.awccInventoryBalance | number }} ؋</div>
+            <div class="p-2 bg-white bg-opacity-30 rounded-full">
+              <span class="material-icons text-white">inventory</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-5 rounded-xl shadow-md text-white bg-gradient-to-r from-blue-200 via-orange-200 to-gray-500">
+          <div class="text-sm font-extrabold">Active Service</div>
+          <div class="flex items-center justify-between mt-4">
+            <div class="text-xl font-extrabold">{{ balances.activeServiceBalance | number }} ؋</div>
+            <div class="p-2 bg-white bg-opacity-30 rounded-full">
+              <span class="material-icons text-white">electric_bolt</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-5 rounded-xl shadow-md text-white orange-blue-card">
+          <div class="text-sm font-extrabold">E-Money</div>
+          <div class="flex items-center justify-between mt-4">
+            <div class="text-xl font-extrabold">{{ balances.eMoneyBalance | number }} ؋</div>
+            <div class="p-2 bg-white bg-opacity-30 rounded-full">
+              <span class="material-icons text-white">account_balance_wallet</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-5 rounded-xl shadow-md text-white bg-gradient-to-r from-blue-200 via-orange-200 to-gray-500">
+          <div class="text-sm font-extrabold">LC Transactions</div>
+          <div class="flex items-center justify-between mt-4">
+            <div class="text-2xl font-extrabold">{{ balances.largeTransactionCount | number }}</div>
+            <div class="p-2 bg-white bg-opacity-30 rounded-full">
+              <span class="material-icons text-white">swap_horiz</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row 1: Pie + Donut -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" *ngIf="pieChartData && donutChartData">
+
+        <!-- Users Pie -->
+        <div class="bg-white drop-shadow-xl rounded-lg px-6 py-3 flex items-center gap-6">
+          <div class="w-32 h-32 flex flex-col items-center">
+            <canvas class="h-[128px] w-[128px]" baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions"></canvas>
+          </div>
+          <div class="flex-1 relative">
+            <div class="absolute -top-5 -right-2 flex bg-gray-100 rounded-full text-xs overflow-hidden">
+              <button (click)="setTab('daily', 1)"
+                [class.bg-gray-400]="activeTab === 'daily'" [class.text-white]="activeTab === 'daily'"
+                class="px-3 py-1 text-xs transition-colors duration-200">Last Day</button>
+              <button (click)="setTab('all', 1)"
+                [class.bg-gray-400]="activeTab === 'all'" [class.text-white]="activeTab === 'all'"
+                class="px-3 py-1 text-xs transition-colors duration-200">All Time</button>
+            </div>
+            <h2 class="text-lg font-extrabold text-gray-700">Total Users Count</h2>
+            <p class="text-xs text-gray-500">{{ users_subTitle }}</p>
+            <div class="flex items-center gap-1 mt-2">
+              <span class="text-3xl font-bold text-gray-900">{{ totalUsersCount | number }}</span>
+              <span class="text-green-500 text-xs font-semibold ml-2">▲ {{ dayUsersCount | number }} new last day</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 mt-2">
+              <ng-container *ngFor="let legend of chartLegends">
+                <span class="inline-block w-2 h-2" [style.backgroundColor]="legend.color"></span>
+                <span class="text-gray-600 text-[10px]">{{ legend.label }}</span>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transactions Donut -->
+        <div class="bg-white drop-shadow-xl rounded-lg p-6 flex items-center gap-6">
+          <div class="w-32 h-32">
+            <canvas baseChart [data]="donutChartData" [options]="donutChartOptions" [type]="'doughnut'"></canvas>
+          </div>
+          <div class="flex-1 relative">
+            <div class="absolute -top-8 -right-2 flex bg-gray-100 rounded-full text-xs overflow-hidden">
+              <button (click)="setTab('daily', 2)"
+                [class.bg-gray-400]="activeTab === 'daily'" [class.text-white]="activeTab === 'daily'"
+                class="px-3 py-1 text-xs transition-colors duration-200">Month</button>
+              <button (click)="setTab('all', 2)"
+                [class.bg-gray-400]="activeTab === 'all'" [class.text-white]="activeTab === 'all'"
+                class="px-3 py-1 text-xs transition-colors duration-200">All Time</button>
+            </div>
+            <h2 class="text-lg font-extrabold text-gray-700">Total Transaction Count</h2>
+            <p class="text-xs text-gray-500">{{ transactionSubTitle }}</p>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="text-3xl font-bold text-gray-900">{{ totalTransactionCount | number }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row 2: KYC bar + Transaction line -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" *ngIf="kycData.length && transactionStatusData.length">
+        <app-kyc-summary [kycData]="kycData"></app-kyc-summary>
+        <app-transaction-status-card [transactionData]="transactionStatusData"></app-transaction-status-card>
+      </div>
+
+      <!-- Monthly Transaction Amount Chart -->
+      <div class="grid grid-cols-1 gap-4 mt-4" *ngIf="chartConfig">
+        <div class="p-6 bg-white shadow-lg rounded-xl">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Monthly Transactions Overview</h2>
+          <div class="h-96 w-full">
+            <canvas baseChart [data]="chartConfig.data" [options]="chartConfig.options" [type]="chartConfig.type"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reports Tab -->
+    <div *ngIf="activeTabMain === 'reports'">
+      <app-business-reports [userData]="totalUsersData" [kycData]="kycData"></app-business-reports>
+    </div>
+
+  </div>
+</div>

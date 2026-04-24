@@ -1,0 +1,9 @@
+{
+  "responseCode": 200,
+  "data": [
+    { "kycType": "CUSTOMER",  "incomplete": 1240, "inReview": 875, "verifiedLevel1": 4310, "verifiedLevel2": 3980, "approved": 7650, "rejected": 485 },
+    { "kycType": "AGENT",     "incomplete": 85,   "inReview": 42,  "verifiedLevel1": 620,  "verifiedLevel2": 510,  "approved": 1890, "rejected": 63  },
+    { "kycType": "MERCHANT",  "incomplete": 310,  "inReview": 198, "verifiedLevel1": 740,  "verifiedLevel2": 620,  "approved": 780,  "rejected": 222 },
+    { "kycType": "CORPORATE", "incomplete": 18,   "inReview": 12,  "verifiedLevel1": 55,   "verifiedLevel2": 48,   "approved": 270,  "rejected": 9   }
+  ]
+}

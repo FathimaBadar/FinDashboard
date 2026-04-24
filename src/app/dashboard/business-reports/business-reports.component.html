@@ -1,0 +1,50 @@
+<div class="bg-white shadow-md rounded-lg overflow-hidden">
+  <h3 class="px-6 py-4 font-semibold text-gray-800">Registered User Statistics</h3>
+  <table class="min-w-full table-auto mx-auto">
+    <thead class="bg-gray-100 text-gray-600 text-sm">
+      <tr>
+        <th class="px-6 py-3 text-left">User Type</th>
+        <th class="px-6 py-3 text-left">User Count</th>
+        <th class="px-6 py-3 text-left">Cumulative Count</th>
+      </tr>
+    </thead>
+    <tbody class="text-gray-700 text-sm divide-y divide-gray-100">
+      <tr *ngFor="let item of userData" class="hover:bg-gray-50">
+        <td class="px-4 py-2 font-medium">{{ item.userType }}</td>
+        <td class="px-4 py-2">{{ item.userCount }}</td>
+        <td class="px-4 py-2 font-semibold text-gray-600">{{ item.cumulativeCount | number }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="flex justify-between items-center px-6 py-3 bg-gray-50 text-sm text-gray-500">
+    <span>1–{{ userData.length }} of {{ userData.length }}</span>
+  </div>
+</div>
+
+<div class="bg-white shadow-md rounded-lg overflow-hidden my-4">
+  <h3 class="px-6 py-4 font-semibold text-gray-800">KYC Application Statistics</h3>
+  <table class="min-w-full table-auto">
+    <thead class="bg-gray-100 text-gray-600 text-sm">
+      <tr>
+        <th class="px-4 py-2 text-left">KYC Type</th>
+        <th class="px-4 py-2 text-left">Incomplete</th>
+        <th class="px-4 py-2 text-left">In Review</th>
+        <th class="px-4 py-2 text-left">Verified L1</th>
+        <th class="px-4 py-2 text-left">Verified L2</th>
+        <th class="px-4 py-2 text-left">Approved</th>
+        <th class="px-4 py-2 text-left">Rejected</th>
+      </tr>
+    </thead>
+    <tbody class="text-gray-700 text-sm divide-y divide-gray-100">
+      <tr *ngFor="let item of kycData" class="hover:bg-gray-50">
+        <td class="px-4 py-2 font-medium">{{ item.kycType }}</td>
+        <td class="px-4 py-2">{{ item.incomplete | number }}</td>
+        <td class="px-4 py-2">{{ item.inReview | number }}</td>
+        <td class="px-4 py-2">{{ item.verifiedLevel1 | number }}</td>
+        <td class="px-4 py-2">{{ item.verifiedLevel2 | number }}</td>
+        <td class="px-4 py-2 font-semibold">{{ item.approved | number }}</td>
+        <td class="px-4 py-2">{{ item.rejected | number }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.orange-blue-card {
+  background-image: linear-gradient(to right, #ffb677, #9bacc9, #50a4d8);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.blue-gray-card {
+  background-image: linear-gradient(to right, #bfdbfe, #6b7280);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}

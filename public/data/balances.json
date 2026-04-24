@@ -1,0 +1,9 @@
+{
+  "responseCode": 200,
+  "data": {
+    "awccInventoryBalance": 124850000,
+    "activeServiceBalance": 87320000,
+    "eMoneyBalance": 215640000,
+    "largeTransactionCount": 1284
+  }
+}
