@@ -1,50 +1,183 @@
-<div class="bg-white shadow-md rounded-lg overflow-hidden">
-  <h3 class="px-6 py-4 font-semibold text-gray-800">Registered User Statistics</h3>
-  <table class="min-w-full table-auto mx-auto">
-    <thead class="bg-gray-100 text-gray-600 text-sm">
-      <tr>
-        <th class="px-6 py-3 text-left">User Type</th>
-        <th class="px-6 py-3 text-left">User Count</th>
-        <th class="px-6 py-3 text-left">Cumulative Count</th>
-      </tr>
-    </thead>
-    <tbody class="text-gray-700 text-sm divide-y divide-gray-100">
-      <tr *ngFor="let item of userData" class="hover:bg-gray-50">
-        <td class="px-4 py-2 font-medium">{{ item.userType }}</td>
-        <td class="px-4 py-2">{{ item.userCount }}</td>
-        <td class="px-4 py-2 font-semibold text-gray-600">{{ item.cumulativeCount | number }}</td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="flex justify-between items-center px-6 py-3 bg-gray-50 text-sm text-gray-500">
-    <span>1–{{ userData.length }} of {{ userData.length }}</span>
+<!-- Registered User Statistics -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+  <!-- Card header -->
+  <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+    <div class="flex items-center gap-3">
+      <div class="p-2 rounded-lg" style="background:#d8f3dc">
+        <span class="material-icons text-lg" style="color:#1a3a28">group</span>
+      </div>
+      <div>
+        <h3 class="font-bold text-sm" style="color:#1a3a28">Registered User Statistics</h3>
+        <p class="text-xs text-gray-400 mt-0.5">Breakdown by user type</p>
+      </div>
+    </div>
+    <span class="text-xs font-semibold px-3 py-1 rounded-full" style="background:#d8f3dc;color:#2d6a4f">
+      {{ userData.length }} types
+    </span>
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full">
+      <thead>
+        <tr style="background:#f8faf9">
+          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">User Type</th>
+          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">New (Last Day)</th>
+          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Cumulative Total</th>
+          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Share</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of userData; let odd = odd"
+            class="transition-colors hover:bg-[#f1f5f2]"
+            [style.background]="odd ? '#fafcfa' : '#ffffff'">
+
+          <!-- User type badge -->
+          <td class="px-6 py-4">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full inline-block" style="background:#2d6a4f"></span>
+              <span class="font-semibold text-sm" style="color:#1a3a28">{{ item.userType }}</span>
+            </div>
+          </td>
+
+          <!-- New count -->
+          <td class="px-6 py-4 text-sm text-gray-600">
+            <span class="inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full" style="background:#d8f3dc;color:#2d6a4f">
+              +{{ item.userCount | number }}
+            </span>
+          </td>
+
+          <!-- Cumulative -->
+          <td class="px-6 py-4 font-bold text-sm" style="color:#1a3a28">
+            {{ item.cumulativeCount | number }}
+          </td>
+
+          <!-- Progress bar (share of total) -->
+          <td class="px-6 py-4 w-40">
+            <div class="flex items-center gap-2">
+              <div class="flex-1 h-1.5 rounded-full overflow-hidden" style="background:#f0f4f1">
+                <div class="h-full rounded-full" style="background:#2d6a4f"
+                     [style.width.%]="(item.cumulativeCount / totalCumulative) * 100"></div>
+              </div>
+              <span class="text-[11px] font-semibold text-gray-400 w-8 text-right">
+                {{ ((item.cumulativeCount / totalCumulative) * 100) | number:'1.0-0' }}%
+              </span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <div class="px-6 py-3 flex items-center justify-between border-t border-gray-100" style="background:#f8faf9">
+    <span class="text-xs text-gray-400">{{ userData.length }} user types</span>
+    <span class="text-xs font-semibold" style="color:#2d6a4f">
+      Total: {{ totalCumulative | number }} users
+    </span>
   </div>
 </div>
 
-<div class="bg-white shadow-md rounded-lg overflow-hidden my-4">
-  <h3 class="px-6 py-4 font-semibold text-gray-800">KYC Application Statistics</h3>
-  <table class="min-w-full table-auto">
-    <thead class="bg-gray-100 text-gray-600 text-sm">
-      <tr>
-        <th class="px-4 py-2 text-left">KYC Type</th>
-        <th class="px-4 py-2 text-left">Incomplete</th>
-        <th class="px-4 py-2 text-left">In Review</th>
-        <th class="px-4 py-2 text-left">Verified L1</th>
-        <th class="px-4 py-2 text-left">Verified L2</th>
-        <th class="px-4 py-2 text-left">Approved</th>
-        <th class="px-4 py-2 text-left">Rejected</th>
-      </tr>
-    </thead>
-    <tbody class="text-gray-700 text-sm divide-y divide-gray-100">
-      <tr *ngFor="let item of kycData" class="hover:bg-gray-50">
-        <td class="px-4 py-2 font-medium">{{ item.kycType }}</td>
-        <td class="px-4 py-2">{{ item.incomplete | number }}</td>
-        <td class="px-4 py-2">{{ item.inReview | number }}</td>
-        <td class="px-4 py-2">{{ item.verifiedLevel1 | number }}</td>
-        <td class="px-4 py-2">{{ item.verifiedLevel2 | number }}</td>
-        <td class="px-4 py-2 font-semibold">{{ item.approved | number }}</td>
-        <td class="px-4 py-2">{{ item.rejected | number }}</td>
-      </tr>
-    </tbody>
-  </table>
+
+<!-- KYC Application Statistics -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-5">
+
+  <!-- Card header -->
+  <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+    <div class="flex items-center gap-3">
+      <div class="p-2 rounded-lg" style="background:#d8f3dc">
+        <span class="material-icons text-lg" style="color:#1a3a28">verified_user</span>
+      </div>
+      <div>
+        <h3 class="font-bold text-sm" style="color:#1a3a28">KYC Application Statistics</h3>
+        <p class="text-xs text-gray-400 mt-0.5">Status breakdown per KYC type</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 flex-wrap justify-end">
+      <span *ngFor="let s of kycStatuses" class="text-[10px] font-semibold px-2 py-0.5 rounded-full border"
+            [style.background]="s.bg" [style.color]="s.color" [style.borderColor]="s.border">
+        {{ s.label }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full">
+      <thead>
+        <tr style="background:#f8faf9">
+          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">KYC Type</th>
+          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Incomplete</th>
+          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">In Review</th>
+          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Verified L1</th>
+          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Verified L2</th>
+          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Approved</th>
+          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Rejected</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of kycData; let odd = odd"
+            class="transition-colors hover:bg-[#f1f5f2]"
+            [style.background]="odd ? '#fafcfa' : '#ffffff'">
+
+          <!-- KYC type -->
+          <td class="px-6 py-4">
+            <span class="inline-flex items-center gap-1.5 font-bold text-sm px-3 py-1 rounded-full" style="background:#1a3a28;color:#ffffff">
+              {{ item.kycType }}
+            </span>
+          </td>
+
+          <!-- Incomplete -->
+          <td class="px-5 py-4 text-center">
+            <span class="inline-block text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#fef3c7;color:#92400e">
+              {{ item.incomplete | number }}
+            </span>
+          </td>
+
+          <!-- In Review -->
+          <td class="px-5 py-4 text-center">
+            <span class="inline-block text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#dbeafe;color:#1e40af">
+              {{ item.inReview | number }}
+            </span>
+          </td>
+
+          <!-- Verified L1 -->
+          <td class="px-5 py-4 text-center">
+            <span class="inline-block text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#d8f3dc;color:#2d6a4f">
+              {{ item.verifiedLevel1 | number }}
+            </span>
+          </td>
+
+          <!-- Verified L2 -->
+          <td class="px-5 py-4 text-center">
+            <span class="inline-block text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#d1fae5;color:#065f46">
+              {{ item.verifiedLevel2 | number }}
+            </span>
+          </td>
+
+          <!-- Approved -->
+          <td class="px-5 py-4 text-center">
+            <span class="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full" style="background:#1a3a28;color:#74c69d">
+              <span class="material-icons text-[12px]">check_circle</span>
+              {{ item.approved | number }}
+            </span>
+          </td>
+
+          <!-- Rejected -->
+          <td class="px-5 py-4 text-center">
+            <span class="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#fee2e2;color:#991b1b">
+              <span class="material-icons text-[12px]">cancel</span>
+              {{ item.rejected | number }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <div class="px-6 py-3 border-t border-gray-100" style="background:#f8faf9">
+    <span class="text-xs text-gray-400">{{ kycData.length }} KYC categories</span>
+  </div>
 </div>

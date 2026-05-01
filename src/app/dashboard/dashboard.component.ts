@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartOptions, ChartType } from 'chart.js';
@@ -65,7 +65,7 @@ export class DashboardComponent implements OnInit {
 
   chartConfig!: ChartConfiguration<'bar' | 'line'>;
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor(private dashboardService: DashboardService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     forkJoin({
@@ -84,10 +84,13 @@ export class DashboardComponent implements OnInit {
       this.totalUsersCount = users.reduce((s, u) => s + u.cumulativeCount, 0);
       this.dayUsersCount = users.reduce((s, u) => s + u.userCount, 0);
 
+      this.cdr.detectChanges();
+
       setTimeout(() => {
         this.generateUserCountChartData();
         this.generateTransactionStatusChart();
         this.generateTransactionAmountChart();
+        this.cdr.detectChanges();
       }, 100);
     });
   }
@@ -166,23 +169,23 @@ export class DashboardComponent implements OnInit {
         datasets: [
           {
             type: 'bar',
-            label: 'Total Amount (؋)',
+            label: 'Total Amount (ر.س)',
             data: this.transactionAmountData.map(d => d.totalAmount),
-            backgroundColor: '#FCA5A5',
-            borderRadius: 2
+            backgroundColor: '#74c69d',
+            borderRadius: 4
           },
           {
             type: 'line',
             label: 'No. of Transactions',
             data: this.transactionAmountData.map(d => d.noOfTxn),
-            borderColor: '#6366F1',
-            backgroundColor: '#6366F1',
+            borderColor: '#1a3a28',
+            backgroundColor: '#1a3a28',
             tension: 0.4,
             borderWidth: 2,
             yAxisID: 'y1',
             pointRadius: 4,
             pointBackgroundColor: '#fff',
-            pointBorderColor: '#6366F1'
+            pointBorderColor: '#1a3a28'
           }
         ]
       },
@@ -194,13 +197,13 @@ export class DashboardComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: ctx => ctx.dataset.label?.includes('Amount')
-                ? `؋ ${ctx.formattedValue}`
+                ? `ر.س ${ctx.formattedValue}`
                 : `Transactions: ${ctx.formattedValue}`
             }
           }
         },
         scales: {
-          y:  { beginAtZero: true, title: { display: true, text: 'Total Amount (؋)' } },
+          y:  { beginAtZero: true, title: { display: true, text: 'Total Amount (ر.س)' } },
           y1: { beginAtZero: true, position: 'right', title: { display: true, text: 'Transactions' }, grid: { drawOnChartArea: false } }
         }
       }

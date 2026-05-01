@@ -1,0 +1,58 @@
+<header class="header-gradient sticky top-0 z-50">
+  <div class="max-w-screen-xl mx-auto px-6 py-3 flex items-center gap-4">
+
+    <!-- Logo -->
+    <div class="flex items-center gap-3 shrink-0">
+      <div class="rounded-xl p-2" style="background:#1a3a28">
+        <span class="material-icons text-white text-2xl">account_balance</span>
+      </div>
+      <div>
+        <h1 class="text-lg font-extrabold tracking-wide leading-none" style="color:#1a3a28">FinDashboard</h1>
+        <p class="text-xs text-gray-400 mt-0.5">Financial Operations Center</p>
+      </div>
+    </div>
+
+    <!-- Search bar -->
+    <div class="hidden md:flex flex-1 max-w-xs mx-4">
+      <div class="relative w-full">
+        <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[18px]">search</span>
+        <input type="text" placeholder="Search…"
+          class="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm text-gray-700
+                 focus:outline-none focus:border-[#40916c] focus:ring-1 focus:ring-[#40916c] transition">
+      </div>
+    </div>
+
+    <div class="flex-1"></div>
+
+    <!-- Date -->
+    <div class="hidden lg:flex items-center gap-1.5 text-sm text-gray-500 shrink-0">
+      <span class="material-icons text-[16px]" style="color:#40916c">calendar_today</span>
+      <span>{{ today | date: 'd MMMM y' }}</span>
+    </div>
+
+    <!-- Language toggle -->
+    <div class="flex items-center bg-gray-100 rounded-full overflow-hidden text-xs font-medium shrink-0">
+      <button class="px-3 py-1.5 text-gray-400 hover:text-gray-700 transition-colors">AR</button>
+      <span class="text-gray-300 select-none">|</span>
+      <button class="px-3 py-1.5 font-semibold" style="color:#1a3a28">EN</button>
+    </div>
+
+    <!-- Notification bell -->
+    <button class="relative p-1.5 text-gray-400 hover:text-gray-700 transition-colors shrink-0">
+      <span class="material-icons text-xl">notifications_none</span>
+      <span class="absolute top-1 right-1 w-2 h-2 rounded-full border-2 border-white" style="background:#40916c"></span>
+    </button>
+
+    <!-- User avatar -->
+    <div class="flex items-center gap-2 cursor-pointer shrink-0">
+      <div class="relative">
+        <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold select-none"
+             style="background:#1a3a28">A</div>
+        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2 border-white"
+              style="background:#40916c"></span>
+      </div>
+      <span class="hidden sm:inline text-sm font-medium text-gray-700">Admin</span>
+    </div>
+
+  </div>
+</header>
