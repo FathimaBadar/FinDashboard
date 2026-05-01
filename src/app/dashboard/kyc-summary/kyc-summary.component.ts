@@ -8,8 +8,8 @@ import { KycSummary } from '../../services/dashboard.service';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="bg-white drop-shadow-xl rounded-lg p-6">
-      <h2 class="text-xl font-bold text-gray-800 mb-2">KYC Application Summary</h2>
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+      <h2 class="text-base font-bold mb-2" style="color:#1a3a28">KYC Application Summary</h2>
       <div class="justify-items-center m-1">
         <canvas #kycCanvas></canvas>
       </div>
@@ -22,10 +22,10 @@ export class KycSummaryComponent implements AfterViewInit {
 
   private statuses = ['Incomplete', 'In Review', 'Verified L1', 'Verified L2', 'Rejected', 'Approved'];
   private typeColors: Record<string, string> = {
-    CUSTOMER:  '#003F5C',
-    AGENT:     '#BC5090',
-    MERCHANT:  '#FFA600',
-    CORPORATE: '#FF6361',
+    CUSTOMER:  '#1a3a28',
+    AGENT:     '#2d6a4f',
+    MERCHANT:  '#40916c',
+    CORPORATE: '#74c69d',
   };
 
   ngAfterViewInit() {

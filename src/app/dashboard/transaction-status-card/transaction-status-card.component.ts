@@ -8,8 +8,8 @@ import { TransactionStatus } from '../../services/dashboard.service';
   standalone: true,
   imports: [BaseChartDirective],
   template: `
-    <div class="bg-white drop-shadow-xl rounded-lg p-6">
-      <h2 class="text-lg font-semibold text-gray-700 mb-2">Monthly Transaction Status</h2>
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+      <h2 class="text-base font-bold mb-2" style="color:#1a3a28">Monthly Transaction Status</h2>
       <div class="w-full h-full">
         <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'"></canvas>
       </div>
@@ -40,17 +40,17 @@ export class TransactionStatusCardComponent implements OnInit {
         {
           label: 'Success',
           data: this.transactionData.map(d => d.successCount),
-          borderColor: '#34d399', backgroundColor: '#34d399', fill: false, tension: 0.3
+          borderColor: '#40916c', backgroundColor: 'rgba(64,145,108,0.12)', fill: true, tension: 0.4
         },
         {
           label: 'Pending',
           data: this.transactionData.map(d => d.pendingCount),
-          borderColor: '#fbbf24', backgroundColor: '#fbbf24', fill: false, tension: 0.3
+          borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.10)', fill: true, tension: 0.4
         },
         {
           label: 'Failed',
           data: this.transactionData.map(d => d.failedCount),
-          borderColor: '#f87171', backgroundColor: '#f87171', fill: false, tension: 0.3
+          borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.10)', fill: true, tension: 0.4
         }
       ]
     };
