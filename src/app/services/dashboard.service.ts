@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { catchError, map, Observable, retry, throwError } from 'rxjs';
 
 export interface UserStats {
   userType: string;
@@ -40,25 +40,33 @@ export interface Balances {
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
   getUsers(): Observable<UserStats[]> {
-    return this.http.get<any>('/data/users.json').pipe(map(r => r.data));
+    return this.fetch<UserStats[]>('/data/users.json');
   }
 
   getKyc(): Observable<KycSummary[]> {
-    return this.http.get<any>('/data/kyc.json').pipe(map(r => r.data));
+    return this.fetch<KycSummary[]>('/data/kyc.json');
   }
 
   getTransactions(): Observable<TransactionStatus[]> {
-    return this.http.get<any>('/data/transactions.json').pipe(map(r => r.data));
+    return this.fetch<TransactionStatus[]>('/data/transactions.json');
   }
 
   getTransactionAmounts(): Observable<TransactionAmount[]> {
-    return this.http.get<any>('/data/transaction-amounts.json').pipe(map(r => r.data));
+    return this.fetch<TransactionAmount[]>('/data/transaction-amounts.json');
   }
 
   getBalances(): Observable<Balances> {
-    return this.http.get<any>('/data/balances.json').pipe(map(r => r.data));
+    return this.fetch<Balances>('/data/balances.json');
+  }
+
+  private fetch<T>(url: string): Observable<T> {
+    return this.http.get<{ data: T }>(url).pipe(
+      map(r => r.data),
+      retry({ count: 1, delay: 1000 }),
+      catchError(err => throwError(() => new Error(`Failed to load ${url}: ${err.message}`)))
+    );
   }
 }
