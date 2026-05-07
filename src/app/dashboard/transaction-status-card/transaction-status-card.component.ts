@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartData, ChartOptions } from 'chart.js';
-import { TransactionStatus } from '../../services/dashboard.service';
+import { TransactionStatus } from '../../core/models/transaction-status.model';
 
 @Component({
   selector: 'app-transaction-status-card',

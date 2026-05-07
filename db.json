@@ -1,0 +1,49 @@
+{
+  "users": [
+    { "id": 1, "userType": "CUSTOMER",  "userCount": 142, "cumulativeCount": 18540 },
+    { "id": 2, "userType": "BO",        "userCount": 3,   "cumulativeCount": 87    },
+    { "id": 3, "userType": "AGENT",     "userCount": 21,  "cumulativeCount": 3210  },
+    { "id": 4, "userType": "CORPORATE", "userCount": 5,   "cumulativeCount": 412   },
+    { "id": 5, "userType": "MERCHANT",  "userCount": 14,  "cumulativeCount": 1870  }
+  ],
+  "kyc": [
+    { "id": 1, "kycType": "CUSTOMER",  "incomplete": 1240, "inReview": 875, "verifiedLevel1": 4310, "verifiedLevel2": 3980, "approved": 7650, "rejected": 485 },
+    { "id": 2, "kycType": "AGENT",     "incomplete": 85,   "inReview": 42,  "verifiedLevel1": 620,  "verifiedLevel2": 510,  "approved": 1890, "rejected": 63  },
+    { "id": 3, "kycType": "MERCHANT",  "incomplete": 310,  "inReview": 198, "verifiedLevel1": 740,  "verifiedLevel2": 620,  "approved": 780,  "rejected": 222 },
+    { "id": 4, "kycType": "CORPORATE", "incomplete": 18,   "inReview": 12,  "verifiedLevel1": 55,   "verifiedLevel2": 48,   "approved": 270,  "rejected": 9   }
+  ],
+  "transactions": [
+    { "id": 1,  "month": 1,  "successCount": 42100, "failedCount": 1850, "pendingCount": 730  },
+    { "id": 2,  "month": 2,  "successCount": 38600, "failedCount": 1620, "pendingCount": 540  },
+    { "id": 3,  "month": 3,  "successCount": 51400, "failedCount": 2100, "pendingCount": 870  },
+    { "id": 4,  "month": 4,  "successCount": 63200, "failedCount": 2430, "pendingCount": 1010 },
+    { "id": 5,  "month": 5,  "successCount": 58900, "failedCount": 2280, "pendingCount": 920  },
+    { "id": 6,  "month": 6,  "successCount": 71300, "failedCount": 2750, "pendingCount": 1150 },
+    { "id": 7,  "month": 7,  "successCount": 68500, "failedCount": 2590, "pendingCount": 1080 },
+    { "id": 8,  "month": 8,  "successCount": 74800, "failedCount": 2870, "pendingCount": 1240 },
+    { "id": 9,  "month": 9,  "successCount": 79200, "failedCount": 3010, "pendingCount": 1320 },
+    { "id": 10, "month": 10, "successCount": 82400, "failedCount": 3180, "pendingCount": 1390 },
+    { "id": 11, "month": 11, "successCount": 88100, "failedCount": 3350, "pendingCount": 1470 },
+    { "id": 12, "month": 12, "successCount": 95600, "failedCount": 3620, "pendingCount": 1580 }
+  ],
+  "transaction-amounts": [
+    { "id": 1,  "month": 1,  "noOfTxn": 44680,  "totalAmount": 182500000 },
+    { "id": 2,  "month": 2,  "noOfTxn": 40760,  "totalAmount": 164300000 },
+    { "id": 3,  "month": 3,  "noOfTxn": 54370,  "totalAmount": 218900000 },
+    { "id": 4,  "month": 4,  "noOfTxn": 66640,  "totalAmount": 271200000 },
+    { "id": 5,  "month": 5,  "noOfTxn": 62100,  "totalAmount": 252800000 },
+    { "id": 6,  "month": 6,  "noOfTxn": 75200,  "totalAmount": 305700000 },
+    { "id": 7,  "month": 7,  "noOfTxn": 72170,  "totalAmount": 293400000 },
+    { "id": 8,  "month": 8,  "noOfTxn": 78910,  "totalAmount": 320100000 },
+    { "id": 9,  "month": 9,  "noOfTxn": 83530,  "totalAmount": 339500000 },
+    { "id": 10, "month": 10, "noOfTxn": 86970,  "totalAmount": 353700000 },
+    { "id": 11, "month": 11, "noOfTxn": 92920,  "totalAmount": 378200000 },
+    { "id": 12, "month": 12, "noOfTxn": 100800, "totalAmount": 410600000 }
+  ],
+  "balances": {
+    "awccInventoryBalance": 124850000,
+    "activeServiceBalance": 87320000,
+    "eMoneyBalance": 215640000,
+    "largeTransactionCount": 1284
+  }
+}

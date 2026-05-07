@@ -10,14 +10,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartOptions, ChartType } from 'chart.js';
 import { forkJoin } from 'rxjs';
-import {
-  Balances,
-  DashboardService,
-  KycSummary,
-  TransactionAmount,
-  TransactionStatus,
-  UserStats
-} from '../services/dashboard.service';
+import { DashboardService } from '../services/dashboard.service';
+import { UserStats } from '../core/models/user-stats.model';
+import { KycSummary } from '../core/models/kyc-summary.model';
+import { TransactionStatus } from '../core/models/transaction-status.model';
+import { TransactionAmount } from '../core/models/transaction-amount.model';
+import { Balances } from '../core/models/balances.model';
 import { KycSummaryComponent } from './kyc-summary/kyc-summary.component';
 import { TransactionStatusCardComponent } from './transaction-status-card/transaction-status-card.component';
 import { BusinessReportsComponent } from './business-reports/business-reports.component';
