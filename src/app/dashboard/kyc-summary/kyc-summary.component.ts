@@ -1,7 +1,7 @@
 import { Component, Input, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration } from 'chart.js';
-import { KycSummary } from '../../services/dashboard.service';
+import { KycSummary } from '../../core/models/kyc-summary.model';
 
 @Component({
   selector: 'app-kyc-summary',

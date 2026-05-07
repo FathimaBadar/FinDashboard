@@ -1,72 +1,44 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, map, Observable, retry, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError, Observable, retry, throwError } from 'rxjs';
+import { API_BASE_URL } from '../core/tokens/api.token';
+import { UserStats } from '../core/models/user-stats.model';
+import { KycSummary } from '../core/models/kyc-summary.model';
+import { TransactionStatus } from '../core/models/transaction-status.model';
+import { TransactionAmount } from '../core/models/transaction-amount.model';
+import { Balances } from '../core/models/balances.model';
 
-export interface UserStats {
-  userType: string;
-  userCount: number;
-  cumulativeCount: number;
-}
-
-export interface KycSummary {
-  kycType: string;
-  incomplete: number;
-  inReview: number;
-  verifiedLevel1: number;
-  verifiedLevel2: number;
-  approved: number;
-  rejected: number;
-}
-
-export interface TransactionStatus {
-  month: number;
-  successCount: number;
-  failedCount: number;
-  pendingCount: number;
-}
-
-export interface TransactionAmount {
-  month: number;
-  noOfTxn: number;
-  totalAmount: number;
-}
-
-export interface Balances {
-  awccInventoryBalance: number;
-  activeServiceBalance: number;
-  eMoneyBalance: number;
-  largeTransactionCount: number;
-}
+export type { UserStats, KycSummary, TransactionStatus, TransactionAmount, Balances };
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   private readonly http = inject(HttpClient);
+  private readonly apiUrl = inject(API_BASE_URL);
 
   getUsers(): Observable<UserStats[]> {
-    return this.fetch<UserStats[]>('/data/users.json');
+    return this.get<UserStats[]>('users');
   }
 
   getKyc(): Observable<KycSummary[]> {
-    return this.fetch<KycSummary[]>('/data/kyc.json');
+    return this.get<KycSummary[]>('kyc');
   }
 
   getTransactions(): Observable<TransactionStatus[]> {
-    return this.fetch<TransactionStatus[]>('/data/transactions.json');
+    return this.get<TransactionStatus[]>('transactions');
   }
 
   getTransactionAmounts(): Observable<TransactionAmount[]> {
-    return this.fetch<TransactionAmount[]>('/data/transaction-amounts.json');
+    return this.get<TransactionAmount[]>('transaction-amounts');
   }
 
   getBalances(): Observable<Balances> {
-    return this.fetch<Balances>('/data/balances.json');
+    return this.get<Balances>('balances');
   }
 
-  private fetch<T>(url: string): Observable<T> {
-    return this.http.get<{ data: T }>(url).pipe(
-      map(r => r.data),
+  private get<T>(resource: string): Observable<T> {
+    return this.http.get<T>(`${this.apiUrl}/${resource}`).pipe(
       retry({ count: 1, delay: 1000 }),
-      catchError(err => throwError(() => new Error(`Failed to load ${url}: ${err.message}`)))
+      catchError(err => throwError(() => new Error(`Failed to load ${resource}: ${err.message}`)))
     );
   }
 }
