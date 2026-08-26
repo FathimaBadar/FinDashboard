@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserStats } from '../../core/models/user-stats.model';
-import { KycSummary } from '../../core/models/kyc-summary.model';
+import { UserStats } from '../../../core/models/user-stats.model';
+import { KycSummary } from '../../../core/models/kyc-summary.model';
 
 @Component({
   selector: 'app-business-reports',

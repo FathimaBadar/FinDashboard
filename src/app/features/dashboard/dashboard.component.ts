@@ -10,12 +10,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartOptions, ChartType } from 'chart.js';
 import { forkJoin } from 'rxjs';
-import { DashboardService } from '../services/dashboard.service';
-import { UserStats } from '../core/models/user-stats.model';
-import { KycSummary } from '../core/models/kyc-summary.model';
-import { TransactionStatus } from '../core/models/transaction-status.model';
-import { TransactionAmount } from '../core/models/transaction-amount.model';
-import { Balances } from '../core/models/balances.model';
+import { UserStatsService } from '../../core/services/user-stats.service';
+import { KycService } from '../../core/services/kyc.service';
+import { TransactionService } from '../../core/services/transaction.service';
+import { TransactionAmountService } from '../../core/services/transaction-amount.service';
+import { BalancesService } from '../../core/services/balances.service';
+import { UserStats } from '../../core/models/user-stats.model';
+import { KycSummary } from '../../core/models/kyc-summary.model';
+import { TransactionStatus } from '../../core/models/transaction-status.model';
+import { TransactionAmount } from '../../core/models/transaction-amount.model';
+import { Balances } from '../../core/models/balances.model';
 import { KycSummaryComponent } from './kyc-summary/kyc-summary.component';
 import { TransactionStatusCardComponent } from './transaction-status-card/transaction-status-card.component';
 import { BusinessReportsComponent } from './business-reports/business-reports.component';
@@ -36,7 +40,11 @@ import { BusinessReportsComponent } from './business-reports/business-reports.co
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  private readonly dashboardService = inject(DashboardService);
+  private readonly userStatsService = inject(UserStatsService);
+  private readonly kycService = inject(KycService);
+  private readonly transactionService = inject(TransactionService);
+  private readonly transactionAmountService = inject(TransactionAmountService);
+  private readonly balancesService = inject(BalancesService);
 
   // UI state
   readonly activeTabMain = signal<'dashboard' | 'reports'>('dashboard');
@@ -216,11 +224,11 @@ export class DashboardComponent {
 
   private loadDashboardData(): void {
     forkJoin({
-      users:   this.dashboardService.getUsers(),
-      kyc:     this.dashboardService.getKyc(),
-      txns:    this.dashboardService.getTransactions(),
-      amounts: this.dashboardService.getTransactionAmounts(),
-      balances: this.dashboardService.getBalances()
+      users:   this.userStatsService.getAll(),
+      kyc:     this.kycService.getAll(),
+      txns:    this.transactionService.getAll(),
+      amounts: this.transactionAmountService.getAll(),
+      balances: this.balancesService.get()
     })
     .pipe(takeUntilDestroyed())
     .subscribe({

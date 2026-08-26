@@ -5,6 +5,7 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { routes } from './app.routes';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { API_BASE_URL } from './core/tokens/api.token';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,6 +13,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(withInterceptors([loadingInterceptor])),
     provideCharts(withDefaultRegisterables()),
-    { provide: API_BASE_URL, useValue: 'http://localhost:3000' }
+    { provide: API_BASE_URL, useValue: environment.apiBaseUrl }
   ]
 };
