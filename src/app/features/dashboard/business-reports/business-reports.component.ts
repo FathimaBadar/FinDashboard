@@ -1,21 +1,24 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { UserStats } from '../../../core/models/user-stats.model';
 import { KycSummary } from '../../../core/models/kyc-summary.model';
 
 @Component({
   selector: 'app-business-reports',
   standalone: true,
-  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [DecimalPipe],
   templateUrl: './business-reports.component.html'
 })
 export class BusinessReportsComponent {
-  @Input() userData: UserStats[] = [];
-  @Input() kycData: KycSummary[] = [];
+  readonly userData = input<UserStats[]>([]);
+  readonly kycData = input<KycSummary[]>([]);
 
-  get totalCumulative(): number {
-    return this.userData.reduce((s, u) => s + u.cumulativeCount, 0);
-  }
+  // A computed() memoizes: it only re-runs when userData() actually changes,
+  // unlike a plain getter, which re-runs on every change-detection pass.
+  readonly totalCumulative = computed(() =>
+    this.userData().reduce((s, u) => s + u.cumulativeCount, 0)
+  );
 
   readonly kycStatuses = [
     { label: 'Incomplete', bg: '#fef3c7', color: '#92400e', border: '#fde68a' },

@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  linkedSignal,
   signal
 } from '@angular/core';
 import { DecimalPipe, NgClass } from '@angular/common';
@@ -48,12 +49,19 @@ export class DashboardComponent {
 
   // UI state
   readonly activeTabMain = signal<'dashboard' | 'reports'>('dashboard');
-  readonly activeTab = signal<'daily' | 'all'>('all');
   readonly isLoading = signal(true);
   readonly error = signal<string | null>(null);
 
   // Raw data signals
   readonly usersData = signal<UserStats[]>([]);
+
+  // Resets to 'all' whenever usersData() changes (i.e. whenever fresh data
+  // loads) — but still freely settable via setTab() in between loads.
+  readonly activeTab = linkedSignal<UserStats[], 'daily' | 'all'>({
+    source: this.usersData,
+    computation: () => 'all'
+  });
+
   readonly kycData = signal<KycSummary[]>([]);
   readonly transactionStatusData = signal<TransactionStatus[]>([]);
   readonly transactionAmountData = signal<TransactionAmount[]>([]);
