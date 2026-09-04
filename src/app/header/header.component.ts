@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ThemeService } from '../core/services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -10,4 +11,5 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent {
   today = new Date();
+  protected readonly themeService = inject(ThemeService);
 }

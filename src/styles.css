@@ -1,7 +1,10 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
+    color-scheme: light;
   --brand-darkest: #122b1e;
   --brand-dark:    #1a3a28;
   --brand-mid:     #2d6a4f;
@@ -10,11 +13,50 @@
   --brand-pale:    #d8f3dc;
 }
 
+@theme {
+  /* Surfaces — light: white cards on the pale grey-green page background */
+  --color-surface:         #ffffff;
+  --color-surface-variant: var(--brand-pale);    /* #d8f3dc — icon chips, subtle fills */
+  --color-surface-alt:     #f1f5f2;              /* page background */
+
+  /* Text */
+  --color-text:            var(--brand-dark);    /* #1a3a28 — headings, body */
+  --color-text-muted:      var(--brand-mid);     /* #2d6a4f — labels, captions */
+  --color-text-alt:        var(--brand-green);   /* #40916c — accents, deltas, icons */
+
+  /* Borders */
+  --color-border:          var(--brand-pale);    /* #d8f3dc — card edges, dividers */
+  --color-border-strong:   var(--brand-green);   /* #40916c — inputs, focus rings */
+
+  /* Interactive */
+  --color-accent:          var(--brand-dark);    /* #1a3a28 — primary buttons */
+  --color-accent-hover:    var(--brand-mid);     /* #2d6a4f */
+  --color-on-accent:       #ffffff;              /* text on accent fills */
+}
+
+.dark {
+  color-scheme: dark;
+  --color-surface:         var(--brand-dark);    /* #1a3a28 — cards sit above the page */
+  --color-surface-variant: var(--brand-mid);     /* #2d6a4f */
+  --color-surface-alt:     var(--brand-darkest); /* #122b1e — page background */
+
+  --color-text:            var(--brand-pale);    /* #d8f3dc */
+  --color-text-muted:      var(--brand-light);   /* #74c69d */
+  --color-text-alt:        var(--brand-green);   /* #40916c — icons/large text only */
+
+  --color-border:          var(--brand-mid);     /* #2d6a4f */
+  --color-border-strong:   var(--brand-light);   /* #74c69d */
+
+  --color-accent:          var(--brand-light);   /* #74c69d — light fill on dark ground */
+  --color-accent-hover:    var(--brand-pale);    /* #d8f3dc — brightens on hover */
+  --color-on-accent:       var(--brand-darkest); /* #122b1e — dark text on light fill */
+}
+
 /* Header — white bar */
 .header-gradient {
-  background: #ffffff;
-  color: #1a3a28;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 

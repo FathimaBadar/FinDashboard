@@ -16,8 +16,7 @@
     <div class="hidden md:flex flex-1 max-w-xs mx-4">
       <div class="relative w-full">
         <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[18px]">search</span>
-        <input type="text" placeholder="Search…"
-          class="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm text-gray-700
+        <input type="text" placeholder="Search…" class="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm text-gray-700
                  focus:outline-none focus:border-[#40916c] focus:ring-1 focus:ring-[#40916c] transition">
       </div>
     </div>
@@ -36,6 +35,15 @@
       <span class="text-gray-300 select-none">|</span>
       <button class="px-3 py-1.5 font-semibold" style="color:#1a3a28">EN</button>
     </div>
+    <!-- Theme toggle -->
+    <button type="button" (click)="themeService.toggle()"
+      [attr.aria-label]="themeService.theme() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'" class="p-1.5 rounded-full text-text-muted hover:text-text transition-colors shrink-0
+         focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-strong">
+      <span class="material-icons text-xl" aria-hidden="true">
+        {{ themeService.theme() === 'dark' ? 'light_mode' : 'dark_mode' }}
+      </span>
+    </button>
+
 
     <!-- Notification bell -->
     <button class="relative p-1.5 text-gray-400 hover:text-gray-700 transition-colors shrink-0">
@@ -47,9 +55,9 @@
     <div class="flex items-center gap-2 cursor-pointer shrink-0">
       <div class="relative">
         <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold select-none"
-             style="background:#1a3a28">A</div>
+          style="background:#1a3a28">A</div>
         <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2 border-white"
-              style="background:#40916c"></span>
+          style="background:#40916c"></span>
       </div>
       <span class="hidden sm:inline text-sm font-medium text-gray-700">Admin</span>
     </div>
