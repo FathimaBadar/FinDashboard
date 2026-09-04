@@ -2,12 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { DecimalPipe } from '@angular/common';
 import { UserStats } from '../../../core/models/user-stats.model';
 import { KycSummary } from '../../../core/models/kyc-summary.model';
+import { CardComponent } from '../../../shared/ui/card/card.component';
+import { BadgeComponent, BadgeVariant } from '../../../shared/ui/badge/badge.component';
 
 @Component({
   selector: 'app-business-reports',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DecimalPipe],
+  imports: [DecimalPipe, CardComponent, BadgeComponent],
   templateUrl: './business-reports.component.html'
 })
 export class BusinessReportsComponent {
@@ -20,11 +22,13 @@ export class BusinessReportsComponent {
     this.userData().reduce((s, u) => s + u.cumulativeCount, 0)
   );
 
-  readonly kycStatuses = [
-    { label: 'Incomplete', bg: '#fef3c7', color: '#92400e', border: '#fde68a' },
-    { label: 'In Review',  bg: '#dbeafe', color: '#1e40af', border: '#bfdbfe' },
-    { label: 'Verified',   bg: '#d8f3dc', color: '#2d6a4f', border: '#b7e4c7' },
-    { label: 'Approved',   bg: '#1a3a28', color: '#74c69d', border: '#2d6a4f' },
-    { label: 'Rejected',   bg: '#fee2e2', color: '#991b1b', border: '#fecaca' },
+  // The legend now names a semantic variant rather than three raw hex values —
+  // the Badge decides what those mean in the current theme.
+  readonly kycStatuses: ReadonlyArray<{ label: string; variant: BadgeVariant }> = [
+    { label: 'Incomplete', variant: 'warn'    },
+    { label: 'In Review',  variant: 'info'    },
+    { label: 'Verified',   variant: 'success' },
+    { label: 'Approved',   variant: 'accent'  },
+    { label: 'Rejected',   variant: 'danger'  },
   ];
 }

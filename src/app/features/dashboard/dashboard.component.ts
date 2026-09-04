@@ -24,6 +24,7 @@ import { Balances } from '../../core/models/balances.model';
 import { KycSummaryComponent } from './kyc-summary/kyc-summary.component';
 import { TransactionStatusCardComponent } from './transaction-status-card/transaction-status-card.component';
 import { BusinessReportsComponent } from './business-reports/business-reports.component';
+import { CardComponent } from '../../shared/ui/card/card.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,7 +36,8 @@ import { BusinessReportsComponent } from './business-reports/business-reports.co
     BaseChartDirective,
     KycSummaryComponent,
     TransactionStatusCardComponent,
-    BusinessReportsComponent
+    BusinessReportsComponent,
+    CardComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -88,6 +90,19 @@ export class DashboardComponent {
   readonly chartLegends = computed(() =>
     this.pieChartLabels.map((label, i) => ({ label, color: this.pieColors[i] }))
   );
+
+  // Describes the four balance tiles as data so the template renders them with
+  // one @for instead of four near-identical blocks.
+  readonly statCards = computed(() => {
+    const b = this.balances();
+    if (!b) return [];
+    return [
+      { icon: 'inventory',              label: 'AWCC Inventory',  value: b.awccInventoryBalance,  suffix: 'ر.س' },
+      { icon: 'electric_bolt',          label: 'Active Service',  value: b.activeServiceBalance,  suffix: 'ر.س' },
+      { icon: 'account_balance_wallet', label: 'E-Money',         value: b.eMoneyBalance,         suffix: 'ر.س' },
+      { icon: 'swap_horiz',             label: 'LC Transactions', value: b.largeTransactionCount, suffix: ''    }
+    ];
+  });
 
   readonly userSubTitle = computed(() =>
     this.activeTab() === 'all' ? 'Accumulated Count' : 'New Users Last Day'

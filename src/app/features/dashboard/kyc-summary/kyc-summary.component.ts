@@ -1,18 +1,19 @@
 import { ChangeDetectionStrategy, Component, ElementRef, effect, input, viewChild } from '@angular/core';
 import { Chart, ChartConfiguration } from 'chart.js';
 import { KycSummary } from '../../../core/models/kyc-summary.model';
+import { CardComponent } from '../../../shared/ui/card/card.component';
 
 @Component({
   selector: 'app-kyc-summary',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CardComponent],
   template: `
-    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-      <h2 class="text-base font-bold mb-2" style="color:#1a3a28">KYC Application Summary</h2>
+    <app-card heading="KYC Application Summary" padding="md">
       <div class="justify-items-center m-1">
         <canvas #kycCanvas></canvas>
       </div>
-    </div>
+    </app-card>
   `
 })
 export class KycSummaryComponent {

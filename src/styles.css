@@ -32,6 +32,16 @@
   --color-accent:          var(--brand-dark);    /* #1a3a28 — primary buttons */
   --color-accent-hover:    var(--brand-mid);     /* #2d6a4f */
   --color-on-accent:       #ffffff;              /* text on accent fills */
+
+  /* Status — each pair is a fill plus the text colour that sits on it */
+  --color-success:         var(--brand-pale);    /* #d8f3dc */
+  --color-on-success:      var(--brand-mid);     /* #2d6a4f */
+  --color-warn:            #fef3c7;
+  --color-on-warn:         #92400e;
+  --color-info:            #dbeafe;
+  --color-on-info:         #1e40af;
+  --color-danger:          #fee2e2;
+  --color-on-danger:       #991b1b;
 }
 
 .dark {
@@ -50,6 +60,16 @@
   --color-accent:          var(--brand-light);   /* #74c69d — light fill on dark ground */
   --color-accent-hover:    var(--brand-pale);    /* #d8f3dc — brightens on hover */
   --color-on-accent:       var(--brand-darkest); /* #122b1e — dark text on light fill */
+
+  /* Status fills invert: deep tint as the fill, pale text on top */
+  --color-success:         var(--brand-mid);     /* #2d6a4f */
+  --color-on-success:      var(--brand-pale);    /* #d8f3dc */
+  --color-warn:            #422006;
+  --color-on-warn:         #fcd34d;
+  --color-info:            #172554;
+  --color-on-info:         #93c5fd;
+  --color-danger:          #450a0a;
+  --color-on-danger:       #fca5a5;
 }
 
 /* Header — white bar */

@@ -1,66 +1,61 @@
 <!-- Registered User Statistics -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+<app-card padding="none" class="overflow-hidden">
 
   <!-- Card header -->
-  <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+  <div class="flex items-center justify-between px-6 py-5 border-b border-border">
     <div class="flex items-center gap-3">
-      <div class="p-2 rounded-lg" style="background:#d8f3dc">
-        <span class="material-icons text-lg" style="color:#1a3a28">group</span>
+      <div class="p-2 rounded-lg bg-surface-variant">
+        <span class="material-icons text-lg text-text" aria-hidden="true">group</span>
       </div>
       <div>
-        <h3 class="font-bold text-sm" style="color:#1a3a28">Registered User Statistics</h3>
-        <p class="text-xs text-gray-400 mt-0.5">Breakdown by user type</p>
+        <h3 class="font-bold text-sm text-text">Registered User Statistics</h3>
+        <p class="text-xs text-text-muted mt-0.5">Breakdown by user type</p>
       </div>
     </div>
-    <span class="text-xs font-semibold px-3 py-1 rounded-full" style="background:#d8f3dc;color:#2d6a4f">
-      {{ userData().length }} types
-    </span>
+    <app-badge variant="success">{{ userData().length }} types</app-badge>
   </div>
 
   <!-- Table -->
   <div class="overflow-x-auto">
     <table class="min-w-full">
       <thead>
-        <tr style="background:#f8faf9">
-          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">User Type</th>
-          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">New (Last Day)</th>
-          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Cumulative Total</th>
-          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Share</th>
+        <tr class="bg-surface-alt">
+          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest text-text-muted">User Type</th>
+          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest text-text-muted">New (Last Day)</th>
+          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest text-text-muted">Cumulative Total</th>
+          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest text-text-muted">Share</th>
         </tr>
       </thead>
       <tbody>
         @for (item of userData(); track item.id; let odd = $odd) {
-          <tr class="transition-colors hover:bg-[#f1f5f2]"
-              [style.background]="odd ? '#fafcfa' : '#ffffff'">
+          <tr class="transition-colors hover:bg-surface-variant" [class.bg-surface-alt]="odd">
 
-            <!-- User type badge -->
+            <!-- User type -->
             <td class="px-6 py-4">
               <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full inline-block" style="background:#2d6a4f"></span>
-                <span class="font-semibold text-sm" style="color:#1a3a28">{{ item.userType }}</span>
+                <span class="w-2 h-2 rounded-full inline-block bg-text-alt"></span>
+                <span class="font-semibold text-sm text-text">{{ item.userType }}</span>
               </div>
             </td>
 
             <!-- New count -->
-            <td class="px-6 py-4 text-sm text-gray-600">
-              <span class="inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full" style="background:#d8f3dc;color:#2d6a4f">
-                +{{ item.userCount | number }}
-              </span>
+            <td class="px-6 py-4">
+              <app-badge variant="success">+{{ item.userCount | number }}</app-badge>
             </td>
 
             <!-- Cumulative -->
-            <td class="px-6 py-4 font-bold text-sm" style="color:#1a3a28">
+            <td class="px-6 py-4 font-bold text-sm text-text">
               {{ item.cumulativeCount | number }}
             </td>
 
             <!-- Progress bar (share of total) -->
             <td class="px-6 py-4 w-40">
               <div class="flex items-center gap-2">
-                <div class="flex-1 h-1.5 rounded-full overflow-hidden" style="background:#f0f4f1">
-                  <div class="h-full rounded-full" style="background:#2d6a4f"
+                <div class="flex-1 h-1.5 rounded-full overflow-hidden bg-surface-alt">
+                  <div class="h-full rounded-full bg-text-alt"
                        [style.width.%]="(item.cumulativeCount / totalCumulative()) * 100"></div>
                 </div>
-                <span class="text-[11px] font-semibold text-gray-400 w-8 text-right">
+                <span class="text-[11px] font-semibold text-text-muted w-8 text-right">
                   {{ ((item.cumulativeCount / totalCumulative()) * 100) | number:'1.0-0' }}%
                 </span>
               </div>
@@ -72,35 +67,32 @@
   </div>
 
   <!-- Footer -->
-  <div class="px-6 py-3 flex items-center justify-between border-t border-gray-100" style="background:#f8faf9">
-    <span class="text-xs text-gray-400">{{ userData().length }} user types</span>
-    <span class="text-xs font-semibold" style="color:#2d6a4f">
+  <div class="px-6 py-3 flex items-center justify-between border-t border-border bg-surface-alt">
+    <span class="text-xs text-text-muted">{{ userData().length }} user types</span>
+    <span class="text-xs font-semibold text-text">
       Total: {{ totalCumulative() | number }} users
     </span>
   </div>
-</div>
+</app-card>
 
 
 <!-- KYC Application Statistics -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-5">
+<app-card padding="none" class="overflow-hidden mt-5">
 
   <!-- Card header -->
-  <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+  <div class="flex items-center justify-between px-6 py-5 border-b border-border">
     <div class="flex items-center gap-3">
-      <div class="p-2 rounded-lg" style="background:#d8f3dc">
-        <span class="material-icons text-lg" style="color:#1a3a28">verified_user</span>
+      <div class="p-2 rounded-lg bg-surface-variant">
+        <span class="material-icons text-lg text-text" aria-hidden="true">verified_user</span>
       </div>
       <div>
-        <h3 class="font-bold text-sm" style="color:#1a3a28">KYC Application Statistics</h3>
-        <p class="text-xs text-gray-400 mt-0.5">Status breakdown per KYC type</p>
+        <h3 class="font-bold text-sm text-text">KYC Application Statistics</h3>
+        <p class="text-xs text-text-muted mt-0.5">Status breakdown per KYC type</p>
       </div>
     </div>
     <div class="flex items-center gap-2 flex-wrap justify-end">
       @for (s of kycStatuses; track s.label) {
-        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full border"
-              [style.background]="s.bg" [style.color]="s.color" [style.borderColor]="s.border">
-          {{ s.label }}
-        </span>
+        <app-badge [variant]="s.variant">{{ s.label }}</app-badge>
       }
     </div>
   </div>
@@ -109,70 +101,59 @@
   <div class="overflow-x-auto">
     <table class="min-w-full">
       <thead>
-        <tr style="background:#f8faf9">
-          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">KYC Type</th>
-          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Incomplete</th>
-          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">In Review</th>
-          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Verified L1</th>
-          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Verified L2</th>
-          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Approved</th>
-          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest" style="color:#6b7280">Rejected</th>
+        <tr class="bg-surface-alt">
+          <th class="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-widest text-text-muted">KYC Type</th>
+          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest text-text-muted">Incomplete</th>
+          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest text-text-muted">In Review</th>
+          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest text-text-muted">Verified L1</th>
+          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest text-text-muted">Verified L2</th>
+          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest text-text-muted">Approved</th>
+          <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest text-text-muted">Rejected</th>
         </tr>
       </thead>
       <tbody>
         @for (item of kycData(); track item.id; let odd = $odd) {
-          <tr class="transition-colors hover:bg-[#f1f5f2]"
-              [style.background]="odd ? '#fafcfa' : '#ffffff'">
+          <tr class="transition-colors hover:bg-surface-variant" [class.bg-surface-alt]="odd">
 
             <!-- KYC type -->
             <td class="px-6 py-4">
-              <span class="inline-flex items-center gap-1.5 font-bold text-sm px-3 py-1 rounded-full" style="background:#1a3a28;color:#ffffff">
-                {{ item.kycType }}
-              </span>
+              <app-badge variant="accent" class="text-sm font-bold px-3">{{ item.kycType }}</app-badge>
             </td>
 
             <!-- Incomplete -->
             <td class="px-5 py-4 text-center">
-              <span class="inline-block text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#fef3c7;color:#92400e">
-                {{ item.incomplete | number }}
-              </span>
+              <app-badge variant="warn">{{ item.incomplete | number }}</app-badge>
             </td>
 
             <!-- In Review -->
             <td class="px-5 py-4 text-center">
-              <span class="inline-block text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#dbeafe;color:#1e40af">
-                {{ item.inReview | number }}
-              </span>
+              <app-badge variant="info">{{ item.inReview | number }}</app-badge>
             </td>
 
             <!-- Verified L1 -->
             <td class="px-5 py-4 text-center">
-              <span class="inline-block text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#d8f3dc;color:#2d6a4f">
-                {{ item.verifiedLevel1 | number }}
-              </span>
+              <app-badge variant="success">{{ item.verifiedLevel1 | number }}</app-badge>
             </td>
 
             <!-- Verified L2 -->
             <td class="px-5 py-4 text-center">
-              <span class="inline-block text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#d1fae5;color:#065f46">
-                {{ item.verifiedLevel2 | number }}
-              </span>
+              <app-badge variant="success">{{ item.verifiedLevel2 | number }}</app-badge>
             </td>
 
             <!-- Approved -->
             <td class="px-5 py-4 text-center">
-              <span class="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full" style="background:#1a3a28;color:#74c69d">
-                <span class="material-icons text-[12px]">check_circle</span>
+              <app-badge variant="accent">
+                <span class="material-icons text-[12px]" aria-hidden="true">check_circle</span>
                 {{ item.approved | number }}
-              </span>
+              </app-badge>
             </td>
 
             <!-- Rejected -->
             <td class="px-5 py-4 text-center">
-              <span class="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#fee2e2;color:#991b1b">
-                <span class="material-icons text-[12px]">cancel</span>
+              <app-badge variant="danger">
+                <span class="material-icons text-[12px]" aria-hidden="true">cancel</span>
                 {{ item.rejected | number }}
-              </span>
+              </app-badge>
             </td>
           </tr>
         }
@@ -181,7 +162,7 @@
   </div>
 
   <!-- Footer -->
-  <div class="px-6 py-3 border-t border-gray-100" style="background:#f8faf9">
-    <span class="text-xs text-gray-400">{{ kycData().length }} KYC categories</span>
+  <div class="px-6 py-3 border-t border-border bg-surface-alt">
+    <span class="text-xs text-text-muted">{{ kycData().length }} KYC categories</span>
   </div>
-</div>
+</app-card>

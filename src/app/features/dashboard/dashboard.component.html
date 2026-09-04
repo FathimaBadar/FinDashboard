@@ -55,8 +55,9 @@
       <rect x="0" y="188" width="1200" height="2" fill="rgba(255,255,255,0.08)"/>
     </svg>
 
+    <!-- Fades the banner into the page: must follow the theme, not a fixed colour. -->
     <div class="absolute bottom-0 left-0 right-0 h-16"
-         style="background:linear-gradient(to top,#f1f5f2,transparent)"></div>
+         style="background:linear-gradient(to top,var(--color-surface-alt),transparent)"></div>
 
     <div class="relative z-10 px-8 pt-7 flex items-start justify-between">
       <div>
@@ -68,25 +69,23 @@
 
   <!-- Tab Navigation -->
   <div class="px-6 mt-5">
-    <div class="flex gap-8 border-b border-gray-200">
+    <div class="flex gap-8 border-b border-border">
       <button (click)="activeTabMain.set('dashboard')"
         class="flex items-center gap-1.5 pb-3 text-sm relative transition-colors"
-        [ngClass]="{ 'font-semibold': activeTabMain() === 'dashboard', 'text-gray-400 hover:text-gray-600': activeTabMain() !== 'dashboard' }"
-        [style.color]="activeTabMain() === 'dashboard' ? '#1a3a28' : ''">
-        <span class="material-icons text-[18px]">dashboard</span>
+        [ngClass]="{ 'font-semibold text-text': activeTabMain() === 'dashboard', 'text-text-muted hover:text-text': activeTabMain() !== 'dashboard' }">
+        <span class="material-icons text-[18px]" aria-hidden="true">dashboard</span>
         Dashboard
         @if (activeTabMain() === 'dashboard') {
-          <span class="absolute bottom-0 left-0 w-full h-0.5 rounded-t" style="background:#2d6a4f"></span>
+          <span class="absolute bottom-0 left-0 w-full h-0.5 rounded-t bg-text-alt"></span>
         }
       </button>
       <button (click)="activeTabMain.set('reports')"
         class="flex items-center gap-1.5 pb-3 text-sm relative transition-colors"
-        [ngClass]="{ 'font-semibold': activeTabMain() === 'reports', 'text-gray-400 hover:text-gray-600': activeTabMain() !== 'reports' }"
-        [style.color]="activeTabMain() === 'reports' ? '#1a3a28' : ''">
-        <span class="material-icons text-[18px]">analytics</span>
+        [ngClass]="{ 'font-semibold text-text': activeTabMain() === 'reports', 'text-text-muted hover:text-text': activeTabMain() !== 'reports' }">
+        <span class="material-icons text-[18px]" aria-hidden="true">analytics</span>
         Business Reports
         @if (activeTabMain() === 'reports') {
-          <span class="absolute bottom-0 left-0 w-full h-0.5 rounded-t" style="background:#2d6a4f"></span>
+          <span class="absolute bottom-0 left-0 w-full h-0.5 rounded-t bg-text-alt"></span>
         }
       </button>
     </div>
@@ -96,8 +95,8 @@
 
     <!-- Error state -->
     @if (error()) {
-      <div class="mt-6 flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-red-700">
-        <span class="material-icons text-xl">error_outline</span>
+      <div class="mt-6 flex items-center gap-3 rounded-xl bg-danger px-5 py-4 text-on-danger">
+        <span class="material-icons text-xl" aria-hidden="true">error_outline</span>
         <span class="text-sm font-medium">{{ error() }}</span>
       </div>
     }
@@ -106,15 +105,15 @@
     @if (isLoading()) {
       <div class="mt-5 grid grid-cols-1 md:grid-cols-4 gap-4 animate-pulse">
         @for (i of [1,2,3,4]; track i) {
-          <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 h-28">
-            <div class="h-3 w-24 rounded bg-gray-200 mb-3"></div>
-            <div class="h-6 w-32 rounded bg-gray-200"></div>
-          </div>
+          <app-card padding="sm" class="h-28">
+            <div class="h-3 w-24 rounded bg-surface-variant mb-3"></div>
+            <div class="h-6 w-32 rounded bg-surface-variant"></div>
+          </app-card>
         }
       </div>
       <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 animate-pulse">
-        <div class="bg-white rounded-xl border border-gray-100 shadow-sm h-48"></div>
-        <div class="bg-white rounded-xl border border-gray-100 shadow-sm h-48"></div>
+        <app-card padding="none" class="h-48" />
+        <app-card padding="none" class="h-48" />
       </div>
     }
 
@@ -122,47 +121,19 @@
     @if (activeTabMain() === 'dashboard' && !isLoading() && !error()) {
 
       <!-- Stat Cards -->
-      @if (balances(); as b) {
+      @if (statCards().length) {
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-5">
-          <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-            <div class="mb-3">
-              <div class="inline-flex p-2 rounded-lg" style="background:#d8f3dc">
-                <span class="material-icons text-xl" style="color:#1a3a28">inventory</span>
+          @for (card of statCards(); track card.label) {
+            <app-card padding="sm">
+              <div class="mb-3">
+                <div class="inline-flex p-2 rounded-lg bg-surface-variant">
+                  <span class="material-icons text-xl text-text" aria-hidden="true">{{ card.icon }}</span>
+                </div>
               </div>
-            </div>
-            <div class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">AWCC Inventory</div>
-            <div class="text-2xl font-bold mt-1" style="color:#1a3a28">{{ b.awccInventoryBalance | number }} ر.س</div>
-          </div>
-
-          <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-            <div class="mb-3">
-              <div class="inline-flex p-2 rounded-lg" style="background:#d8f3dc">
-                <span class="material-icons text-xl" style="color:#1a3a28">electric_bolt</span>
-              </div>
-            </div>
-            <div class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">Active Service</div>
-            <div class="text-2xl font-bold mt-1" style="color:#1a3a28">{{ b.activeServiceBalance | number }} ر.س</div>
-          </div>
-
-          <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-            <div class="mb-3">
-              <div class="inline-flex p-2 rounded-lg" style="background:#d8f3dc">
-                <span class="material-icons text-xl" style="color:#1a3a28">account_balance_wallet</span>
-              </div>
-            </div>
-            <div class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">E-Money</div>
-            <div class="text-2xl font-bold mt-1" style="color:#1a3a28">{{ b.eMoneyBalance | number }} ر.س</div>
-          </div>
-
-          <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-            <div class="mb-3">
-              <div class="inline-flex p-2 rounded-lg" style="background:#d8f3dc">
-                <span class="material-icons text-xl" style="color:#1a3a28">swap_horiz</span>
-              </div>
-            </div>
-            <div class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">LC Transactions</div>
-            <div class="text-2xl font-bold mt-1" style="color:#1a3a28">{{ b.largeTransactionCount | number }}</div>
-          </div>
+              <div class="text-[11px] font-semibold uppercase tracking-wider text-text-muted">{{ card.label }}</div>
+              <div class="text-2xl font-bold mt-1 text-text">{{ card.value | number }} {{ card.suffix }}</div>
+            </app-card>
+          }
         </div>
       }
 
@@ -171,7 +142,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
 
           <!-- Users Pie -->
-          <div class="bg-white rounded-xl border border-gray-100 shadow-sm px-6 py-4 flex items-center gap-6">
+          <app-card class="flex items-center gap-6">
             <div class="w-32 h-32 flex flex-col items-center shrink-0">
               <canvas class="h-[128px] w-[128px]" baseChart
                 [data]="pieChartData()!"
@@ -180,7 +151,7 @@
               </canvas>
             </div>
             <div class="flex-1 relative">
-              <div class="absolute -top-5 -right-2 flex bg-gray-100 rounded-full text-xs overflow-hidden">
+              <div class="absolute -top-5 -right-2 flex bg-surface-variant rounded-full text-xs overflow-hidden">
                 <button (click)="setTab('daily')"
                   [class.text-white]="activeTab() === 'daily'"
                   [style.background]="activeTab() === 'daily' ? '#2d6a4f' : ''"
@@ -190,23 +161,23 @@
                   [style.background]="activeTab() === 'all' ? '#2d6a4f' : ''"
                   class="px-3 py-1 text-xs transition-colors duration-200">All Time</button>
               </div>
-              <h2 class="text-base font-bold text-gray-700">Total Users Count</h2>
-              <p class="text-xs text-gray-400">{{ userSubTitle() }}</p>
+              <h2 class="text-base font-bold text-text">Total Users Count</h2>
+              <p class="text-xs text-text-muted">{{ userSubTitle() }}</p>
               <div class="flex items-center gap-1 mt-2">
-                <span class="text-3xl font-bold text-gray-900">{{ totalUsersCount() | number }}</span>
-                <span class="text-xs font-semibold ml-2" style="color:#40916c">▲ {{ dayUsersCount() | number }} new last day</span>
+                <span class="text-3xl font-bold text-text">{{ totalUsersCount() | number }}</span>
+                <span class="text-xs font-semibold ml-2 text-text-alt">▲ {{ dayUsersCount() | number }} new last day</span>
               </div>
               <div class="flex flex-wrap items-center gap-2 mt-2">
                 @for (legend of chartLegends(); track legend.label) {
                   <span class="inline-block w-2 h-2 rounded-sm" [style.backgroundColor]="legend.color"></span>
-                  <span class="text-gray-500 text-[10px]">{{ legend.label }}</span>
+                  <span class="text-text-muted text-[10px]">{{ legend.label }}</span>
                 }
               </div>
             </div>
-          </div>
+          </app-card>
 
           <!-- Transactions Donut -->
-          <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex items-center gap-6">
+          <app-card class="flex items-center gap-6">
             <div class="w-32 h-32 shrink-0">
               <canvas baseChart
                 [data]="donutChartData()!"
@@ -215,7 +186,7 @@
               </canvas>
             </div>
             <div class="flex-1 relative">
-              <div class="absolute -top-8 -right-2 flex bg-gray-100 rounded-full text-xs overflow-hidden">
+              <div class="absolute -top-8 -right-2 flex bg-surface-variant rounded-full text-xs overflow-hidden">
                 <button (click)="setTab('daily')"
                   [class.text-white]="activeTab() === 'daily'"
                   [style.background]="activeTab() === 'daily' ? '#2d6a4f' : ''"
@@ -225,13 +196,13 @@
                   [style.background]="activeTab() === 'all' ? '#2d6a4f' : ''"
                   class="px-3 py-1 text-xs transition-colors duration-200">All Time</button>
               </div>
-              <h2 class="text-base font-bold text-gray-700">Total Transaction Count</h2>
-              <p class="text-xs text-gray-400">{{ transactionSubTitle() }}</p>
+              <h2 class="text-base font-bold text-text">Total Transaction Count</h2>
+              <p class="text-xs text-text-muted">{{ transactionSubTitle() }}</p>
               <div class="flex items-center gap-2 mt-2">
-                <span class="text-3xl font-bold text-gray-900">{{ totalTransactionCount() | number }}</span>
+                <span class="text-3xl font-bold text-text">{{ totalTransactionCount() | number }}</span>
               </div>
             </div>
-          </div>
+          </app-card>
         </div>
       }
 
@@ -246,12 +217,11 @@
       <!-- Monthly Transaction Amount Chart -->
       @if (chartConfig(); as config) {
         <div class="grid grid-cols-1 gap-4 mt-4">
-          <div class="p-6 bg-white rounded-xl border border-gray-100 shadow-sm">
-            <h2 class="text-base font-bold mb-4" style="color:#1a3a28">Monthly Transactions Overview</h2>
+          <app-card heading="Monthly Transactions Overview">
             <div class="h-96 w-full">
               <canvas baseChart [data]="config.data" [options]="config.options" [type]="config.type"></canvas>
             </div>
-          </div>
+          </app-card>
         </div>
       }
     }

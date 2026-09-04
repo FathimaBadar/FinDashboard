@@ -2,19 +2,19 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartData, ChartOptions } from 'chart.js';
 import { TransactionStatus } from '../../../core/models/transaction-status.model';
+import { CardComponent } from '../../../shared/ui/card/card.component';
 
 @Component({
   selector: 'app-transaction-status-card',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, CardComponent],
   template: `
-    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-      <h2 class="text-base font-bold mb-2" style="color:#1a3a28">Monthly Transaction Status</h2>
+    <app-card heading="Monthly Transaction Status">
       <div class="w-full h-full">
         <canvas baseChart [data]="lineChartData()" [options]="lineChartOptions" [type]="'line'"></canvas>
       </div>
-    </div>
+    </app-card>
   `
 })
 export class TransactionStatusCardComponent {
